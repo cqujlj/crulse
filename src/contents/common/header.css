@@ -1,0 +1,11 @@
+.header{
+    width: 100 vw;
+    height: 60px;
+    background-color: #fff;
+    box-sizing: border-box;
+    margin-top: 0px;
+}
+.logo-img{
+    height: 40px;
+    margin-top: 10px;
+}
