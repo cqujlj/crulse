@@ -1,32 +1,30 @@
 import React from 'react';
 import './control.css';
-
 import { Layout, Menu, Input } from 'antd';
-import { NONAME } from 'dns';
+import Item from './item'
 const { Header, Content } = Layout;
 const { Search } = Input;
 
+//与父组件相同的参数结构
+interface Iitem{
+  name: string,
+  os: string,
+  status: string,
+  type: string,
+  ip: string,
+  location: string,
+  resources: [],
+  id: number
 
-//通过接口来声明父组件传递来的参数类型
-// interface IProps{
-//    all: number,
-//  }
-// const suffix = (
-//   <AudioOutlined
-//     style={{
-//       fontSize: 16,
-//       color: '#1890ff',
-//     }}
-//   />
-// );
+}
+interface IProps{
+  agentData:[ Iitem ]
+}
 
-// const suffix = <div className="icon-search"></div>
 const enterButton = <div  style={{fontSize: 12, color: '#1890ff', }} className="icon-search"></div>
+const onSearch = (value:string) => console.log("搜索：",value);
 
-const onSearch = (value:string) => console.log(value);
-
-
-const Control: React.FC = () =>{
+const Control: React.FC<IProps> = (props) =>{
     return (
         <Layout className="control">
         <Header  className="control-header">
@@ -41,15 +39,17 @@ const Control: React.FC = () =>{
           enterButton= {enterButton}
           size="large"
           onSearch={onSearch}/>
-
         </Header>
 
-        {/* <Content className="site-layout" style={{marginTop: 16 }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 500}}>
-            Content
+        <Content className="site-layout" style={{marginTop: 16 }}>
+          <div className="site-layout-background" style={{ padding: 0, minHeight: 500}}>
+          {
+            props.agentData.map( (item) => {
+                return <Item key = {item.id} ItemData = {item}/>
+              })
+            }
           </div>
-        </Content> */}
-        
+        </Content>
       </Layout>
     );
   }

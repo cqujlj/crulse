@@ -1,45 +1,63 @@
 import { Layout, Menu } from 'antd';
-import  React,{useEffect, useState} from 'react';
+import  React,{useEffect} from 'react';
 
 import './home.css'
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
-import * as actions from '../store/actions/agentAction';
 import {agentLoaded} from '../store/actions/agentAction'
-import { StoreState } from '../store/types/index';
-import { connect  } from 'react-redux';
-import {Dispatch} from 'redux'
+import { Dispatch} from 'redux'
+import { connect } from 'react-redux';
+import { IStoreState } from '../store/reducers/agentReducers';
+import * as actions from '../store/actions/agentAction';
 
-import Item from '../contents/components/item'
+
 import Display from '../contents/components/display'
 import Control from '../contents/components/control'
 
 const { Header, Content, Sider } = Layout;
 
-  
 
-// 函数式组件
-    const Home: React.FC = () => {
+//   函数式组件
 
-        //设置一个变量来存储请求得来的数据
-        //报错：类型 "{}" 中缺少属性 "dataInfo"，但类型 "IProps" 中需要该属性
-        const [dataInfo, setDataInfo] = useState({ agentsInfo: [] });
-    
-        useEffect(() => {
-            fetch('http://localhost:3001/agents/')
-            .then(res => res.json())
-            .then(data => {
-                // 获得的data是数组，里面的元素均为对象
-                console.log('获取到的数据：', data)  
-                setDataInfo({
-                    agentsInfo:data
-                })
+/* 有类型约束的函数式组件的写法
+type UserInfo = {
+  name: string,
+  age: number,
+}
+export const User = ({ name, age }: UserInfo)  => {}
+export const User:React.FC<UserInfo> = ({ name, age }) => {}
 
-                console.log('AgentsInfo：', dataInfo.agentsInfo)  
-            })
+使用useState：const [count, setCount] = useState<number>(0) 
+*/
+
+
+
+//定义对象接口
+interface Iitem{
+    name: string,
+    os: string,
+    status: string,
+    type: string,
+    ip: string,
+    location: string,
+    resources: [],
+    id: number
+
+}
+
+//定义一个对象数组
+interface IProps{
+    agentData:[ Iitem ]
+  }
+
+// 我们不需要将所有参数都显式的结构，使用某些属性时：props.xxx
+    const Home: React.FC<IProps> = (props) => {
+
+        useEffect( () => {
+            console.log('挂载前请求数据')
+            agentLoaded()
         }, [])
-    
-    
+        
         return (
             <div className="home-page">
                     <Layout className = "home-layout">
@@ -54,8 +72,7 @@ const { Header, Content, Sider } = Layout;
                           console.log(collapsed, type);
                       }}
                       >
-                      {/* <div className="logo" /> */}
-                      <Menu className="home-menu" theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+                      <Menu className="home-menu" theme="dark" mode="inline" defaultSelectedKeys={['2']}>
                           <Menu.Item key="1" icon={<UserOutlined />}>
                           DAS IBOARD
                           </Menu.Item>
@@ -74,29 +91,16 @@ const { Header, Content, Sider } = Layout;
                       <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
                       <Content className="content">
                           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                              <Display 
-                                all = {dataInfo.agentsInfo.length} 
-                                physical = {dataInfo.agentsInfo.length} 
-                                virtual = {dataInfo.agentsInfo.length} 
-                                allIdel = {dataInfo.agentsInfo.length} 
-                                allBlimding = {dataInfo.agentsInfo.length} 
-                              />
-                              <Control/>
-                              <div>
-                                  {
-                                      dataInfo.agentsInfo.length > 0 
-                                      ? 
-                                      <div>
-                                          {
-                                          dataInfo.agentsInfo.map( (item, index) => {
-                                              return <Item key = {index} ItemData = {item}/>
-                                            })
-                                          }
-                                      </div>
-                                      : 
-                                      <div>null</div>
-                                  }
-                              </div>
+                            {
+                                props.agentData.length > 0 
+                                ? 
+                                <div>
+                                    <Display agentData={props.agentData}/>
+                                    <Control agentData={props.agentData}/>
+                                </div>
+                                : 
+                                <div>数据正在加载......</div>
+                                }    
                           </div>
                       </Content>
                       </Layout>
@@ -106,21 +110,21 @@ const { Header, Content, Sider } = Layout;
       }
 
 
-    const mapStateToProps = ({ agentInfo }: StoreState) => {
-        console.log('StoreState:',agentInfo)
+    const mapStateToProps = (state: any) => {
         return {
-            agentInfo
+            agentData:state.agentReducer.data
         }
       }
 
-      
-     const mapDispatchToProps = (dispatch: Dispatch<actions.AGENTAction> ) => {
-        return {
-          onLoadAgent: ( ) => dispatch(actions.agentLoaded())
-        }
-      }
+    
+
+    const mapDispatchToProps = (dispatch: any )  =>({
+        onLoadAgent: () => dispatch(actions.agentLoaded())
+   })
 
       export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+
 
 
 
@@ -233,4 +237,4 @@ const { Header, Content, Sider } = Layout;
 // mapDispatchToProps利用dispatch函数，创建回调props将actions送到store
 
 // const mapStateToProps = state => state.agents; 
-// export default connect(mapStateToProps) (Frame);
+// export default connect(mapStateToProps) (Home);
