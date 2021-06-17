@@ -1,0 +1,120 @@
+.add-resource-down, .add-resource-up{
+    position: relative;
+    left: -65px;
+}
+.add-resource-down{
+    top: 20px
+}
+.add-resource-up{
+    top:-160px
+}
+.main-content-down, .main-content-up{
+    background-color: #ffffff;
+    margin: 0 16px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 2px solid #00B4CF;
+    line-height: 16px;
+    position: absolute;
+    flex: 1;
+    font-size: 14px;
+    color: #00B4CF;
+    background: #fff;
+    box-shadow: 0 3 5px (#000, 30%);
+}
+
+.main-content-down::before, .main-content-up::before{
+    content:" ";
+    border-left: 10px solid transparent;
+    border-right:10px solid transparent;
+    position: absolute;
+    left: 20px;
+   
+}
+.main-content-down::before{
+    border-bottom:10px solid #00B4CF;
+    top: -10px;
+}
+
+.main-content-up::before{
+    border-top:10px solid #00B4CF;
+    top: 136px;
+}
+
+.main_triangle-down, .main_triangle-up{
+    position: absolute;
+}
+
+
+.main_triangle-down::before, .main_triangle-up::before{
+    content:" ";
+    border-left: 10px solid transparent;
+    border-right:10px solid transparent;
+    position: relative;
+    left: 38px;
+}
+
+.main_triangle-down::before{
+    border-bottom:10px solid #FFFEF5F1;
+    top: -25px;
+}
+
+.main_triangle-up::before{
+    border-top:10px solid #FFFEF5F1;
+    top: 145px;
+}
+
+@media screen and (max-width: 350px) {
+.main_triangle::before{
+    left: 20px;
+}
+.main_triangle2::before{
+    left: 37px;
+}
+}
+
+.icon-close{
+    float: right;
+    font-size: 14px;
+    color: #00B4CF;
+}
+
+
+.res-input{
+    display: block;
+    width: 550px;
+    margin: 16px 8px;
+    font-size: 14px;
+    color: #00B4CF;
+    ime-mode:disabled
+}
+ .res-text{
+    font-size: 14px;
+    margin: 8px;
+    color: #000;
+    text-align: left;
+
+}
+.submit-btn, .cancel-btn{
+    margin: 0px 16px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    width: 120px;
+    height: 30px;
+    padding: 0px;
+    margin-bottom: 8px;
+}
+.submit-btn{
+    background-color: #00B4CF;
+}
+.submit-btn:hover{
+    background-color: #01869A;
+}
+.cancel-btn{
+    background-color: #2D4054;
+}
+.cancel-btn:hover{
+    background-color: #435466;
+}

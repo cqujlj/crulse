@@ -1,0 +1,18 @@
+.header{
+    width: 100 vw;
+    height: 60px;
+    position:sticky;
+    top: 0px;
+    left: 0px;   
+    background-color: #fff;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    z-index: 999;
+
+}
+.logo-img{
+    height: 40px;
+    margin-top: 10px;
+}

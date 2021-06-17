@@ -1,20 +1,12 @@
-import { Layout, Menu } from 'antd';
 import  React,{useEffect} from 'react';
-
-import './home.css'
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-
-import {agentLoaded} from '../store/actions/agentAction'
-import { Dispatch} from 'redux'
+import './agent.css'
+import {agentLoaded} from '../../store/actions/agentAction'
 import { connect } from 'react-redux';
-import { IStoreState } from '../store/reducers/agentReducers';
-import * as actions from '../store/actions/agentAction';
+import { Iitem } from '../../store/reducers/agentReducers';
+import * as actions from '../../store/actions/agentAction';
+import Display from './components/display'
+import Control from './components/control'
 
-
-import Display from '../contents/components/display'
-import Control from '../contents/components/control'
-
-const { Header, Content, Sider } = Layout;
 
 
 //   函数式组件
@@ -31,80 +23,28 @@ export const User:React.FC<UserInfo> = ({ name, age }) => {}
 */
 
 
-
-//定义对象接口
-interface Iitem{
-    name: string,
-    os: string,
-    status: string,
-    type: string,
-    ip: string,
-    location: string,
-    resources: [],
-    id: number
-
-}
-
 //定义一个对象数组
 interface IProps{
     agentData:[ Iitem ]
   }
 
 // 我们不需要将所有参数都显式的结构，使用某些属性时：props.xxx
-    const Home: React.FC<IProps> = (props) => {
+    const Agent: React.FC<IProps> = (props) => {
 
-        useEffect( () => {
-            console.log('挂载前请求数据')
-            agentLoaded()
-        }, [])
+        useEffect( () => {  agentLoaded()  }, [])
         
         return (
-            <div className="home-page">
-                    <Layout className = "home-layout">
-                      <Sider 
-                      className="home-sider"
-                      breakpoint="lg"
-                      collapsedWidth="0"
-                      onBreakpoint={broken => {
-                          console.log(broken);
-                      }}
-                      onCollapse={(collapsed, type) => {
-                          console.log(collapsed, type);
-                      }}
-                      >
-                      <Menu className="home-menu" theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-                          <Menu.Item key="1" icon={<UserOutlined />}>
-                          DAS IBOARD
-                          </Menu.Item>
-                          <Menu.Item key="2" icon={<VideoCameraOutlined />} >
-                          AGENT
-                          </Menu.Item>
-                          <Menu.Item key="3" icon={<UploadOutlined />}>
-                          MY CRULSE
-                          </Menu.Item>
-                          <Menu.Item key="4" icon={<UserOutlined />}>
-                          HELP
-                          </Menu.Item>
-                      </Menu>
-                      </Sider>
-                      <Layout className="content-layout">
-                      <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
-                      <Content className="content">
-                          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                            {
-                                props.agentData.length > 0 
-                                ? 
-                                <div>
-                                    <Display agentData={props.agentData}/>
-                                    <Control agentData={props.agentData}/>
-                                </div>
-                                : 
-                                <div>数据正在加载......</div>
-                                }    
-                          </div>
-                      </Content>
-                      </Layout>
-                  </Layout>
+             <div className="agent-page">
+                  {
+                      props.agentData.length > 0 
+                      ? 
+                      <div>
+                          <Display agentData={props.agentData}/>
+                          <Control agentData={props.agentData}/>
+                      </div>
+                      : 
+                      <div>数据正在加载......</div>
+                      }    
                 </div>
         );
       }
@@ -118,11 +58,13 @@ interface IProps{
 
     
 
-    const mapDispatchToProps = (dispatch: any )  =>({
-        onLoadAgent: () => dispatch(actions.agentLoaded())
+    const mapDispatchToProps = ( dispatch: any )  =>({
+
+        onLoadAgent: () => dispatch(actions.agentLoaded()),
+        onModifyAgent:(item:Iitem) => dispatch(actions.modifyAgent(item))
    })
 
-      export default connect(mapStateToProps, mapDispatchToProps)(Home);
+      export default connect(mapStateToProps, mapDispatchToProps)(Agent);
 
 
 

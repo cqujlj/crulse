@@ -1,0 +1,117 @@
+.home-page{
+    width: 100%;
+    height: calc(100vh - 60px - 20px);  /*header：60 footer:20*/
+    background-color: #d8dbe6;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+.home-layout{
+    width: 75%;
+    /* 没有做页面自适应，因此控制了整个页面的最小宽度 */
+    min-width: 1000px;
+    display: flex;
+    margin: auto;
+}
+
+.home-sider{
+    background-color: #2D4054!important;
+    height: calc(100vh - 60px - 20px);
+    width: 200px;
+    min-width: 200px;
+    font-size: 16px;
+    text-align: left;
+    box-sizing: content-box;
+
+}
+ul{
+    padding-inline-start: 0px !important;
+}
+
+/* ul >li >span ,span >a */
+.home-menu>.ant-menu-item{
+    text-decoration: none;
+    list-style-type:none;
+    height: 45px;
+    line-height: 45px;
+}
+
+.home-menu>.ant-menu-item:hover{
+    background-color: #435466;
+}
+.home-menu>.ant-menu-item-selected{
+    background-color: #435466;
+}
+.home-menu>.ant-menu-item>span{
+    margin-left:8px;
+    color: #fff;
+}
+.home-menu>.ant-menu-item>span>a{
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 24px;
+}
+
+/* .home-menu>.ant-menu-item>span:hover{
+    color: #00B4CF;
+    text-decoration: none;
+}
+.home-menu>.ant-menu-item>span>a:hover{
+    color: #00B4CF;
+    text-decoration: none;
+} */
+
+
+.home-menu>.ant-menu-item-selected>span{
+    color: #00B4CF;
+    text-decoration: none;
+} 
+.home-menu>.ant-menu-item-selected>span>a{
+    color: #00B4CF;
+    text-decoration: none;
+} 
+
+
+
+/* ul >a>li >span ,span*/
+/*
+.home-menu>a>.ant-menu-item{
+    text-decoration: none;
+    list-style-type:none;
+    height: 45px;
+    line-height: 45px;
+}
+
+.home-menu>a>.ant-menu-item:hover{
+    background-color: #435466;
+}
+.home-menu>a>.ant-menu-item-selected{
+    background-color: #435466;
+}
+.home-menu>a>.ant-menu-item>span{
+    margin-left:8px;
+    color: #fff;
+}
+.home-menu>a>.ant-menu-item>span>a{
+    margin-left:8px;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.home-menu>a>.ant-menu-item>span:hover{
+    color: #00B4CF;
+    text-decoration: none;
+}
+.home-menu>a>.ant-menu-item-selected>span{
+    color: #00B4CF;
+    text-decoration: none;
+} 
+*/
+
+
+.content-layout{
+   height:  calc(100vh - 60px - 20px);
+    width: 80%;
+}

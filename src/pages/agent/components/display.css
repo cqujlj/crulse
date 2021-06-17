@@ -1,0 +1,56 @@
+.display{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 150px;
+    box-sizing: border-box;
+}
+
+.display-build, .display-idle,.display-mess{
+    position:relative;
+    width: 30%;
+    margin-bottom: 16px;
+}
+
+.display-build{
+    background-color:#FF9A2A;
+}
+
+.display-idle{
+  background-color:#7FBC39;
+}
+
+.display-mess{
+  background-color:#fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.icon-coffee, .icon-cog{
+  opacity: 20%;
+  font-size: 120px;
+}
+
+.build-name, .idle-name{
+  position: absolute;
+  left: 1rem;
+  top:8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+.build-value, .idle-value{
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 48px;
+  color: #fff;
+}
+.mess-value{
+  margin-top: 2rem;
+  font-size: 20px;
+}
+
+.mess-name{
+  font-size: 12px;
+}

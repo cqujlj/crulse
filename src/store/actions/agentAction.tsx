@@ -1,44 +1,27 @@
-import { Dispatch } from 'redux'
-import{AGENT_LOADED,MODIFY_AGENT_DATA}  from '../constants/index'
+import {Iitem} from '../reducers/agentReducers'
+import{AGENT_LOADED, MODIFY_AGENT_DATA}  from '../constants/index'
+import axios from 'axios'
  
-
-//提出请求数据
 export interface AgentLoaded {
     type: typeof AGENT_LOADED
 }
+export interface ModifyAgent {
+    type: typeof MODIFY_AGENT_DATA
+}
+
+export type AGENTAction = AgentLoaded | ModifyAgent
 
 
-//action包括发起请求、请求成功、请求失败等
-export type AGENTAction = AgentLoaded  
-
+//请求所有数据
 export function agentLoaded() {
     return {
         type: AGENT_LOADED
     }
 }
 
-export function modifyAgent() {
-    console.log('修改数据')
+export function  modifyAgent(item: Iitem, ) {
     return {
-        type: MODIFY_AGENT_DATA
-    }
+                type: MODIFY_AGENT_DATA,
+                playload: {...item}
+            }
 }
-
-
-
-//问题？ typescript怎么使用中间件请求数据 中间件如何监听action来进行请求
-//使用中间件saga或thunk来请求数据，监听action，只要action发送过来，就会触发对应的中间件函数调用
-
-
-
-
-
-
-// export const agentLoaded =  (payload : string) => async (dispatch: Dispatch)=> {
-//     console.log('传来的参数：',payload);
-//     const res = await AgentApi;
-//     dispatch({
-//         type:AGENT_LOADED_SUCCESS,
-//         payload:{...res}
-//     });
-// };

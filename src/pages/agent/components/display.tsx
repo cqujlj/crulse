@@ -26,7 +26,6 @@ const Display:React.FC<IProps> = props=> {
 
    useEffect(() => {
       let p_count: number = 0;
-      console.log(' props.agentData~~~~',  props.agentData)
       props.agentData.forEach( item => {
          if(item.type === 'physical'){
             p_count++;
