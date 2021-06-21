@@ -13,10 +13,15 @@ interface IProps{
 
 const Control: React.FC<IProps> = (props) =>{
 
+
+
   const [agentList, setAgentList] = useState<[Iitem]>(props.agentData)
   const [searchValue, setSearchValue]  = useState<string>('')
-  
+
   const enterButton = <div className="icon-search"></div>
+
+ 
+
 
   const selectData = useCallback((param?: string) => {
     const newList:[Iitem] = JSON.parse(JSON.stringify(props.agentData.filter( (value:Iitem) => value.type === param )))
@@ -26,8 +31,7 @@ const Control: React.FC<IProps> = (props) =>{
   //这里只进行了name和ip的搜索
   const searchData = useCallback((param: string)=>{
     const newList:[Iitem] = JSON.parse(JSON.stringify(props.agentData.filter( (value:Iitem) => 
-    (value.name.indexOf(param) !== -1) 
-    || (value.ip.indexOf(param) !== -1))))
+    (value.name.indexOf(param) !== -1)  || (value.ip.indexOf(param) !== -1))))
     setAgentList(newList)
   },[])
 
@@ -46,11 +50,14 @@ const Control: React.FC<IProps> = (props) =>{
     }
   },[])
  
-  const onSearch = (value:string) => {
-    searchData(value)
-  }
-  const onChange = (value:string) => {
-    setSearchValue(value)
+
+  // const onSearch = (value:string) => {
+  //   searchData(value)
+  // }
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement> ) => {
+    searchData(event.target.value)
+    setSearchValue(event.target.value)
   }
 
 
@@ -68,7 +75,8 @@ const Control: React.FC<IProps> = (props) =>{
           placeholder="input search text"
           enterButton = {enterButton}
           size="large"
-          onSearch={onSearch}
+          value={searchValue}
+          onChange={onChange}
           />
         </Header>
         
@@ -77,7 +85,9 @@ const Control: React.FC<IProps> = (props) =>{
           <div className="control-content" style={{ padding: 0, minHeight: 300}}>
           {
             agentList.map( (item) => {
-                return <Item key = {item.id} ItemData = {item}/>
+                return <Item 
+                key = {item.id} 
+                ItemData = {item} />
               })
             }
           </div>

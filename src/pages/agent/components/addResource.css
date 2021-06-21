@@ -1,6 +1,7 @@
 .add-resource-down, .add-resource-up{
     position: relative;
     left: -65px;
+    z-index: 999;
 }
 .add-resource-down{
     top: 20px

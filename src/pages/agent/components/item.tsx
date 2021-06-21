@@ -11,10 +11,24 @@ interface IProps{
   ItemData: Iitem,
 }
 
-const Item :React.FC<IProps> = props=> {
+const Item :React.FC<IProps> = (props) => {
 
   const {name, os, status, ip,location,resources,id} = props.ItemData
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false) 
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [clientY, setClientY] = useState<number>(0) 
+
+  useEffect(()=>{
+    let iconPlus: HTMLElement | null = document.getElementById("icon-plus");
+    if(iconPlus){
+      iconPlus.addEventListener("click", function (e) {
+        setClientY(document.body.clientHeight -  e.clientY)
+      })
+    }
+    
+  },[])
+
+
+
   //删除某一个item的资源
   const deleteItem = useCallback((index:number) =>{
     resources.splice(index,1)
@@ -24,8 +38,7 @@ const Item :React.FC<IProps> = props=> {
 
    //用于接收子组件的传值方法，参数为子组件传递过来的值
    const getChildData = useCallback((val:boolean,addData:string) => {
-     console.log('要求关闭弹窗', val, addData)
-     setIsModalVisible(val)
+    setIsModalVisible(val)
     if(addData){
       JSON.parse(JSON.stringify(addData.split(','))).forEach((value:never) => {
         resources.push(value)
@@ -33,18 +46,26 @@ const Item :React.FC<IProps> = props=> {
      store.dispatch(modifyAgent({...props.ItemData, resources}))  
      modifyResources({...props.ItemData, resources} )
     }
-    
   },[])
-
-  useEffect(() => {
-    console.log('isModalVisible:', isModalVisible)
-  },[isModalVisible])
-
-  
-  const showModal = useCallback(() => {
-    setIsModalVisible(!isModalVisible);
+ 
+  const showModal = useCallback((e) => {
+    let hidebg: HTMLElement | null = document.getElementById("hidebg");
+    setClientY(document.body.clientHeight -  e.clientY)
+    if(hidebg){
+      hidebg.style.display="block";  
+      hidebg.style.height=document.body.clientHeight+"px"; 
+      setIsModalVisible(!isModalVisible)
+    }
   },[])
-
+  //首字母大写，其他小写
+function titleCase(str: string) {
+  var arr = str.toLowerCase().split(" ");
+    var result = arr.map(function(val){
+      return val.replace(val.charAt(0),
+      val.charAt(0).toUpperCase());
+    });
+  return result.join(" ");
+}
 
     return (
     <div className="item">
@@ -74,25 +95,22 @@ const Item :React.FC<IProps> = props=> {
       
         <div className="item-content-down">
           <div className="icon-plus"onClick={showModal}></div>   
-          {/* {
-             clientY < 500 ? <AddResource isModalVisible={isModalVisible} getChildData={getChildData.bind(this)}/>:null
-          } */}
-
           {
-            isModalVisible?
-            <AddResource isModalVisible={isModalVisible} getChildData={getChildData.bind(this)}/>
+            isModalVisible ?
+            <AddResource isModalVisible={isModalVisible} clientY={clientY} getChildData={getChildData.bind(this)}/>
             : 
             null
           } 
           {
           resources.map( (item:string, index:number) => {
             return <div className="resources">
-              <span key = {index} className="reader">{item}</span>
+              <span key = {index} className="reader">{titleCase(item)}</span>
               <span className="icon-trash"  onClick = {deleteItem.bind(this,index,id)} ></span>
               </div>
               })
           }
         </div>
+        <div id="hidebg"></div>
     </div>
     );
   }
